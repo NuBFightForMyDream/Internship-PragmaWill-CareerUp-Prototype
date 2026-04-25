@@ -118,6 +118,8 @@ export default function Home() {
 // --------------------------------------------------------
 
 function DashboardHome() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   return (
     <div className="dashboard-grid">
       {/* Left Column */}
@@ -139,7 +141,24 @@ function DashboardHome() {
             <p style={{ fontSize: "0.9rem", marginBottom: "1.5rem" }}>
               PDF, DOCX up to 5MB. Our AI will extract your skills and update your profile automatically.
             </p>
-            <button className="btn btn-secondary">Browse Files</button>
+            {selectedFile && (
+              <div style={{ marginBottom: "1rem", color: "var(--success)", fontSize: "0.9rem" }}>
+                Selected: {selectedFile.name}
+              </div>
+            )}
+            <label className="btn btn-secondary" style={{ cursor: "pointer", display: "inline-block" }}>
+              {selectedFile ? "Change File" : "Browse Files"}
+              <input 
+                type="file" 
+                accept=".pdf,.docx" 
+                style={{ display: "none" }} 
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    setSelectedFile(e.target.files[0]);
+                  }
+                }} 
+              />
+            </label>
           </div>
         </div>
 
